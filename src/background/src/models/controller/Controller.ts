@@ -2,7 +2,6 @@ import { inject, injectable } from "inversify";
 import { ActionType, BlindSize, BlindType } from "../../enums";
 import { Card } from "../../interfaces";
 import Config from "../../interfaces/Config";
-import { Repositories } from "../../repositories";
 import TYPES from '../../types';
 import Curator from "../curator/Curator";
 import Librarian from "../librarian/Librarian";
@@ -52,7 +51,14 @@ export default class Controller {
   }
 
   public async arrangeGame(): Promise<void> {
-    await this.curator.arrangeGame();
+    const casino = this.librarian.retrieveCasino();
+    const table = this.librarian.retrieveTable();
+    const game = this.librarian.retrieveGame();
+    const board = this.librarian.retrieveNewBoard();    
+    const spots = this.librarian.retrieveSpots();
+    const blinds = this.librarian.retrieveBlinds();
+    const pockets = this.librarian.retrievePockets();
+    await this.curator.arrangeGame(casino, table, game, board, spots, blinds, pockets);
   }
 
   public recordBlind(seat: number, type: BlindType, amount: number): void {
@@ -63,15 +69,18 @@ export default class Controller {
     this.librarian.shelfPocket(seat, card1, card2)
   }
 
-  public recordAction(seat: number, type: ActionType, amount?: number): void {
-    this.curator.recordAction(seat, type, amount);
+  public async presentAction(seat: number, type: ActionType, amount?: number): Promise<void> {
+    const action = this.librarian.retrieveAction(seat, type, amount);
+    await this.curator.presentAction(action);
   }
 
-  public collectBoard(...cards: Card[]): void {
+  public async presentBoardCards(...cards: Card[]): Promise<void> {
     this.curator.collectBoard(...cards);
+    await this.curator.presentBoard();
   }
 
   public async exhibitGame(): Promise<void> {
-    await this.curator.exhibitGame();
+    const pockets = this.librarian.retrievePockets();
+    await this.curator.exhibitGame(pockets);
   }
 }

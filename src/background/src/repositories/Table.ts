@@ -11,20 +11,6 @@ export default class TableRepository {
 
   constructor(@inject(TYPES.Wire) private wire: Wire) {}
 
-  public build(type: BlindSize, amount: number): Table | undefined {
-    if (type === BlindSize.Big) {
-      this.bigBlind = amount;
-    } else {
-      this.smallBlind = amount;
-    }
-    if (this.bigBlind && this.smallBlind) {
-      const table = this.create(this.bigBlind, this.smallBlind);
-      delete this.bigBlind;
-      delete this.smallBlind;
-      return table;
-    }
-  }
-
   public create(bigBlind: number, smallBlind: number): Table {
     return new Table(this.wire, bigBlind, smallBlind);
   }

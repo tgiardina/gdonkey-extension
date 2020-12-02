@@ -11,3 +11,4 @@ export { default as UndefinedPlayerError } from "./UndefinedPlayerError";
 export { default as UndefinedSeatError } from "./UndefinedSeatError";
 export { default as UndefinedStackError } from "./UndefinedStackError";
 export { default as UndefinedTableError } from "./UndefinedTableError";
+export { default as UninitiatedSpotsError } from './UninitiatedSpotsError';
