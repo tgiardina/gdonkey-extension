@@ -8,6 +8,7 @@ module.exports = {
   devtool: 'inline-source-map',      
   mode: "development",  
   entry: {
+    // background: './src/background/src/index.ts',
     content: './src/content/src/index.ts',
     popup: './src/popup/src/index.js'
   },

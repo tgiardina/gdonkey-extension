@@ -1,4 +1,7 @@
 module.exports = {
+  build: {
+    overwriteDest: true,
+  },
   run: {
     startUrl: [
       `about:debugging#/runtime/this-firefox`,
@@ -6,5 +9,6 @@ module.exports = {
       'about:performance',
     ]
   },
+  artifactsDir: "dist",  
   sourceDir: 'dist',  
 };

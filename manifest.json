@@ -23,7 +23,7 @@
   },
 
   "background": {
-    "scripts": ["background/build/bundle.js"]
+    "scripts": ["background.js"]
   },
 
   "content_scripts": [

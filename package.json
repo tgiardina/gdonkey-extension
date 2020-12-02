@@ -2,10 +2,11 @@
   "name": "gdonkey-extension",
   "private": true,
   "scripts": {
-    "start": "npm run build && concurrently -k \"npm:watch\" \"web-ext run\"",
-    "build": "webpack",
+    "install": "npm run apply -- npm i",    
+    "start": "webpack && concurrently -k \"npm:watch\" \"web-ext run\"",
+    "build": "webpack && web-ext build",
     "apply": "func() { cd background && \"$@\" && cd ../content && \"$@\" &&  cd ../popup && \"$@\" && cd ..; }; func",
-    "install": "npm run apply -- npm i",
+    "lint": "web-ext lint",
     "watch": "npm run build -- --watch"
   },
   "devDependencies": {
