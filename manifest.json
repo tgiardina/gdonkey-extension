@@ -1,0 +1,47 @@
+{
+  "description": "Connects to GDonkey's narration API",
+  "manifest_version": 2,
+  "name": "GDonkey",
+  "version": "0.1.0",
+  "icons": {
+    "128": "assets/images/icon-128.png"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "info@gdonkey.com"
+    }
+  },
+
+  "browser_action": {
+    "browser_style": true,
+    "default_popup": "popup.html",
+    "default_title": "GDonkey",
+    "default_icon": {
+      "128": "assets/images/icon-gray-128.png"
+    }
+  },
+
+  "background": {
+    "scripts": ["background/build/bundle.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "run_at": "document_start",
+      "js": ["content.js"]
+    }
+  ],  
+
+  "permissions": [
+    "storage",
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"    
+  ],
+
+  "web_accessible_resources": ["<all_urls>"]  
+}

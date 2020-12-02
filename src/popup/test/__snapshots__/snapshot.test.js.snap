@@ -1,0 +1,375 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot tests Logged in Should render Logout properly 1`] = `
+<div>
+  <div
+    class="App"
+  >
+    <div
+      class="d-inline-block p-3"
+    >
+      <div>
+        <div
+          class="input-group mb-1"
+        >
+          <a
+            rel="noopener noreferrer"
+            style="margin: -10px 0px 0px 0px;"
+            target="_blank"
+          >
+            <img
+              alt="Logo"
+              height="60"
+              src="[object Object]"
+            />
+          </a>
+        </div>
+        <form
+          class=""
+        >
+          <div
+            class="mx-0 mb-2 w-100 form-row"
+          >
+            <div
+              class="m-0 w-100  form-group"
+            >
+              <input
+                aria-label="username"
+                class="p-1 text-center w-100 form-control"
+                disabled=""
+                id="username"
+                placeholder="username"
+                type="text"
+                value="username"
+              />
+            </div>
+          </div>
+          <div
+            class="mx-0 mb-2 w-100 form-row"
+          >
+            <div
+              class="m-0 w-100  form-group"
+            >
+              <input
+                aria-label="password"
+                class="p-1 text-center w-100 form-control"
+                disabled=""
+                id="password"
+                placeholder="password"
+                type="password"
+                value="password"
+              />
+            </div>
+          </div>
+          <div
+            class="m-0 w-100 form-row"
+          >
+            <div
+              class="my-0 mr-2 p-0 w-100 form-group col"
+            >
+              <button
+                class="w-100 btn btn-danger"
+                type="button"
+              >
+                Log Out
+              </button>
+            </div>
+            <div
+              class="p-0 my-0 form-group col"
+            >
+              <button
+                class="w-100 btn btn-outline-primary"
+                type="button"
+              >
+                <span
+                  class="d-inline-block align-middle"
+                  style="font-size: 0.9em; line-height: 100%;"
+                >
+                  Download DB
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Snapshot tests Logged in Should successfully log out 1`] = `
+<div>
+  <div
+    class="App"
+  >
+    <div
+      class="d-inline-block p-3"
+    >
+      <div>
+        <div
+          class="input-group mb-1"
+        >
+          <a
+            rel="noopener noreferrer"
+            style="margin: -10px 0px 0px 0px;"
+            target="_blank"
+          >
+            <img
+              alt="Logo"
+              height="60"
+              src="[object Object]"
+            />
+          </a>
+        </div>
+        <form
+          class=""
+        >
+          <div
+            class="mx-0 mb-2 w-100 form-row"
+          >
+            <div
+              class="m-0 w-100  form-group"
+            >
+              <input
+                aria-label="username"
+                class="p-1 text-center w-100 form-control"
+                id="username"
+                placeholder="username"
+                type="text"
+                value="username"
+              />
+            </div>
+          </div>
+          <div
+            class="mx-0 mb-2 w-100 form-row"
+          >
+            <div
+              class="m-0 w-100  form-group"
+            >
+              <input
+                aria-label="password"
+                class="p-1 text-center w-100 form-control"
+                id="password"
+                placeholder="password"
+                type="password"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="m-0 w-100 form-row"
+          >
+            <div
+              class="my-0 mr-2 p-0 w-100 form-group col"
+            >
+              <button
+                class="w-100 btn btn-primary"
+                type="submit"
+              >
+                Log In
+              </button>
+            </div>
+            <div
+              class="p-0 my-0 form-group col"
+            >
+              <button
+                class="w-100 btn btn-success"
+                type="submit"
+              >
+                Register
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Snapshot tests Logged out Should log in successfully 1`] = `
+<div>
+  <div
+    class="App"
+  >
+    <div
+      class="d-inline-block p-3"
+    >
+      <div>
+        <div
+          class="input-group mb-1"
+        >
+          <a
+            rel="noopener noreferrer"
+            style="margin: -10px 0px 0px 0px;"
+            target="_blank"
+          >
+            <img
+              alt="Logo"
+              height="60"
+              src="[object Object]"
+            />
+          </a>
+        </div>
+        <form
+          class=""
+        >
+          <div
+            class="mx-0 mb-2 w-100 form-row"
+          >
+            <div
+              class="m-0 w-100  form-group"
+            >
+              <input
+                aria-label="username"
+                class="p-1 text-center w-100 form-control"
+                disabled=""
+                id="username"
+                placeholder="username"
+                type="text"
+                value="fake-username"
+              />
+            </div>
+          </div>
+          <div
+            class="mx-0 mb-2 w-100 form-row"
+          >
+            <div
+              class="m-0 w-100  form-group"
+            >
+              <input
+                aria-label="password"
+                class="p-1 text-center w-100 form-control"
+                disabled=""
+                id="password"
+                placeholder="password"
+                type="password"
+                value="password"
+              />
+            </div>
+          </div>
+          <div
+            class="m-0 w-100 form-row"
+          >
+            <div
+              class="my-0 mr-2 p-0 w-100 form-group col"
+            >
+              <button
+                class="w-100 btn btn-danger"
+                type="button"
+              >
+                Log Out
+              </button>
+            </div>
+            <div
+              class="p-0 my-0 form-group col"
+            >
+              <button
+                class="w-100 btn btn-outline-primary"
+                type="button"
+              >
+                <span
+                  class="d-inline-block align-middle"
+                  style="font-size: 0.9em; line-height: 100%;"
+                >
+                  Download DB
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Snapshot tests Logged out Should render Login properly 1`] = `
+<div>
+  <div
+    class="App"
+  >
+    <div
+      class="d-inline-block p-3"
+    >
+      <div>
+        <div
+          class="input-group mb-1"
+        >
+          <a
+            rel="noopener noreferrer"
+            style="margin: -10px 0px 0px 0px;"
+            target="_blank"
+          >
+            <img
+              alt="Logo"
+              height="60"
+              src="[object Object]"
+            />
+          </a>
+        </div>
+        <form
+          class=""
+        >
+          <div
+            class="mx-0 mb-2 w-100 form-row"
+          >
+            <div
+              class="m-0 w-100  form-group"
+            >
+              <input
+                aria-label="username"
+                class="p-1 text-center w-100 form-control"
+                id="username"
+                placeholder="username"
+                type="text"
+                value="username"
+              />
+            </div>
+          </div>
+          <div
+            class="mx-0 mb-2 w-100 form-row"
+          >
+            <div
+              class="m-0 w-100  form-group"
+            >
+              <input
+                aria-label="password"
+                class="p-1 text-center w-100 form-control"
+                id="password"
+                placeholder="password"
+                type="password"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="m-0 w-100 form-row"
+          >
+            <div
+              class="my-0 mr-2 p-0 w-100 form-group col"
+            >
+              <button
+                class="w-100 btn btn-primary"
+                type="submit"
+              >
+                Log In
+              </button>
+            </div>
+            <div
+              class="p-0 my-0 form-group col"
+            >
+              <button
+                class="w-100 btn btn-success"
+                type="submit"
+              >
+                Register
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;
