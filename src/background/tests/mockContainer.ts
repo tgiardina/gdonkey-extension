@@ -7,7 +7,7 @@ export default (
   sniffHttp: Sniffer,
   sniffWs: Sniffer,
 ) => {
-  const container = getContainer(console.log);
+  const container = getContainer();
   // Museum Pipeline
   container.rebind(TYPES.NarrationUrl).toConstantValue("fake-url");
   container

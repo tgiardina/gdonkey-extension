@@ -31,7 +31,7 @@
     "webpack-cli": "^4.1.0"
   },
   "dependencies": {
-    "@tgiardina/proxy-tools": "^0.0.7",
+    "@tgiardina/proxy-tools": "^0.0.9",
     "@tgiardina/sniff": "^1.0.1",
     "axios": "^0.21.0",
     "gdonkey-translators": "file:../../../gdonkey-translators",

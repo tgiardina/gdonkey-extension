@@ -6,9 +6,11 @@ import { Curator, Librarian } from "./";
 
 export default class Controller {
   private curator: Curator;
+  private isInit: boolean;
 
   constructor(curator: Curator, private librarian: Librarian) {
     this.curator = addInitMethod(curator, "clearExhibit");
+    this.isInit = false;
   }
 
   public startNewProject(): void {
@@ -16,8 +18,9 @@ export default class Controller {
   }
 
   public startNewGame(): void {
-    this.librarian.emptyShelves({ except: { players: true } });
+    this.librarian.emptyShelves({ except: { players: true, stacks: true } });
     this.curator.clearExhibit({ except: { user: true } });
+    this.isInit = true;
   }
 
   public identifyGame(id: string): void {
@@ -54,6 +57,7 @@ export default class Controller {
   }
 
   public async arrangeGame(): Promise<void> {
+    if(!this.isInit) return;
     const casino = this.librarian.retrieveCasino();
     const table = this.librarian.retrieveTable();
     const game = this.librarian.retrieveGame();
@@ -95,6 +99,7 @@ export default class Controller {
   }
 
   public async exhibitGame(): Promise<void> {
+    if(!this.isInit) return;
     const pockets = this.librarian.retrievePockets();
     await this.curator.exhibitGame(pockets);
   }

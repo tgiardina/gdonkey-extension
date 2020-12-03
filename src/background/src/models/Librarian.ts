@@ -152,9 +152,9 @@ export default class Librarian {
     return !!this.isActives.read(seat);
   }
 
-  public emptyShelves(options?: { except?: { players: boolean } }): void {
+  public emptyShelves(options?: { except?: { players?: boolean, stacks?: boolean } }): void {
     if (!options?.except?.players) this.players = new SeatChart();
-    this.stacks = new SeatChart();
+    if (!options?.except?.stacks) this.stacks = new SeatChart();    
     this.isActives = new SeatChart();
     this.missedBlinds = new SeatChart();
     this.blinds = [];
