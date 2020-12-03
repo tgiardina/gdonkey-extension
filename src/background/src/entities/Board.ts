@@ -1,4 +1,4 @@
-import { Street } from '../enums';
+import { Street } from "../enums";
 import { Card } from "../interfaces";
 import Wire from "../models/wire";
 

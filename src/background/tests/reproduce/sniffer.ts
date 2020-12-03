@@ -1,4 +1,4 @@
-import { SniffedMessage } from "sniff";
+import { SniffedMessage } from "@tgiardina/sniff";
 
 const events = [
   { pid: "PLAY_STAGE_INFO", stageNo: "4032459243" },

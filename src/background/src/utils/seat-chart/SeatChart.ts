@@ -28,20 +28,35 @@ export default class SeatChart<T> {
   }
 
   public forEach(callback: (item: T, index: number) => void): void {
-    _.range(0, 9).forEach((i) => callback(this.seats[i], i));
+    _.range(0, 9).forEach((i) => {
+      const seat = this.seats[i];
+      if(seat !== undefined) callback(seat, i);
+    })
   }
 
   public map<U>(callback: (item: T, index: number) => U): U[] {
-    return _.range(0, 9).map((i) => callback(this.seats[i], i));
+    return _.range(0, 9).reduce((acc, i) => {
+      const seat = this.seats[i];
+      if(seat === undefined) {
+        return acc
+      } else {
+        acc.push(callback(seat, i));
+        return acc;
+      }
+    }, <U[]>[]);
   }
 
   public reduce<U>(
     callback: (acc: U, item: T, index: number) => U,
     init: U
   ): U {
-    return _.range(0, 9).reduce(
-      (_acc, i) => callback(_acc, this.seats[i], i),
-      init
-    );
+    return _.range(0, 9).reduce((acc, i) => {
+      const seat = this.seats[i];
+      if(seat === undefined) {
+        return acc
+      } else {
+        return callback(acc, this.seats[i], i);
+      }      
+    }, init);
   }
 }

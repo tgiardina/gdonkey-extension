@@ -1,4 +1,4 @@
-import { SniffedMessage } from "sniff";
+import { SniffedMessage } from "@tgiardina/sniff";
 
 const events = [
   {

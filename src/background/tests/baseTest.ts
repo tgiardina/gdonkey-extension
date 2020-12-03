@@ -1,7 +1,7 @@
 import mockAxios from "./mockAxios";
 import mockContainer from "./mockContainer";
 import init from "../src/init";
-import { Sniffer } from "sniff";
+import { Sniffer } from "@tgiardina/sniff";
 
 export default function (
   casino: string,
@@ -9,7 +9,7 @@ export default function (
   sniffWs: Sniffer
 ): void {
   const axios = mockAxios(casino);
-  const container = mockContainer(axios, sniffHttp, sniffWs, casino);
+  const container = mockContainer(axios, sniffHttp, sniffWs);
 
   describe(casino, () => {
     it("should run without error", async () => {
@@ -36,6 +36,7 @@ export default function (
         `fake-url/players`,
         {
           player: {
+            isMe: false,
             username:
               casino === "gpokr" ? "PlayerB" : expect.stringContaining("anon"),
             casinoId: 1,
@@ -82,7 +83,6 @@ export default function (
           action: {
             type: "PostBlind",
             amount: 25,
-            delay: 0,
             street: "Preflop",
             seatId: 1,
           },
@@ -98,7 +98,6 @@ export default function (
           action: {
             type: "PostBlind",
             amount: 50,
-            delay: 0,
             street: "Preflop",
             seatId: 2,
           },

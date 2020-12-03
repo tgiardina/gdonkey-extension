@@ -1,48 +1,35 @@
 import { Container } from "inversify";
-import { apply, log, split } from "proxy-tools";
-import { SniffedMessage, Sniffer } from "sniff";
-import Router from "./models/router";
-import casinos from "./config/casinos";
-import MemCache from "./models/mem-cache";
+import { addLogger, addQueue, addTranslator } from "@tgiardina/proxy-tools";
+import { SniffedMessage, Sniffer } from "@tgiardina/sniff";
+import { ControllerFactory } from "./factories";
+import { MemCache, Router } from "./models";
 import TYPES from "./types";
-import CuratorFactory from "./factories/curator-factory";
+import { Casinos } from "gdonkey-translators";
 
 export default async (container: Container) => {
-  const handleError = <(err: Error) => void>container.get(TYPES.HandleErr);
+  const tokenCache = <MemCache<string>>container.get(TYPES.TokenCache);
+  // Sniffers
   const sniffHttp = <Sniffer>container.get(TYPES.SniffHttp);
   const sniffWs = <Sniffer>container.get(TYPES.SniffWs);
-  const tokenCache = <MemCache<string>>container.get(TYPES.TokenCache);
+  // Museum Pipeline
+  const casinos = <Casinos>container.get(TYPES.Casinos);
+  const controllerFactory = <ControllerFactory>(
+    container.get(TYPES.ControllerFactory)
+  );
+  // Utils
+  const logger = <(obj: unknown) => void>container.get(TYPES.Logger);
+  const handleError = <(err: Error) => void>container.get(TYPES.HandleErr);
 
   await tokenCache.init();
 
   const router = new Router(
     Object.values(casinos).map((casino) => {
-      const curatorFactory = <CuratorFactory>(
-        container.get(TYPES.CuratorFactory)
-      );
       const config = casino.config;
+      const controller = addQueue(addLogger(controllerFactory.create(config), logger, `${config.name}.controller`), handleError);
+      const translator = addLogger(addTranslator(new casino.Translator(controller), casino.parse), logger, `${config.name}.translator`);
       return {
         urls: casino.config.srcUrls,
-        init: () =>
-          apply(
-            split(
-              log(
-                new casino.Translator(
-                  log(
-                    curatorFactory.create(config),
-                    console.log,
-                    `${config.name}.curator`
-                  )
-                ),
-                console.log,
-                `${config.name}.translator`
-              )
-            ),
-            (json: string) =>
-              config.isEventList
-                ? <unknown[]>config.parser(json)
-                : [config.parser(json)]
-          ),
+        init: () => translator,
       };
     })
   );
@@ -58,7 +45,6 @@ export default async (container: Container) => {
   };
 
   sniffHttp(sniff);
-
   sniffWs(sniff);
 
   browser.tabs.onRemoved.addListener((tabId) => {

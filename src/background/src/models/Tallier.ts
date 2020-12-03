@@ -1,5 +1,7 @@
-import { Street } from "../../enums";
+import { injectable } from "inversify";
+import { Street } from "../enums";
 
+@injectable()
 export default class StreetTallier {
   private currStreet: Street;
   private currTally: number;
@@ -15,7 +17,7 @@ export default class StreetTallier {
     } else {
       this.currStreet = street;
       this.currTally = 0;
-      return this.currTally;
+      return this.currTally++;
     }
   }
 }

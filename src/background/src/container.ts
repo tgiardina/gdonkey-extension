@@ -1,65 +1,56 @@
 import * as axios from "axios";
 import { Container } from "inversify";
-import { airLock, drainify, log, syncify } from "proxy-tools";
-import { sniffHttp, sniffWs, Sniffer } from "sniff";
-import casinos from "./config/casinos";
-import Dispatcher from "./m/dispatcher";
-import MemCache from "./models/mem-cache";
-import Operator from "./m/operator";
-import Wire from "./models/wire";
-import CuratorFactory from "./factories/curator-factory";
-import Casino from "./interfaces/Casino";
+import { addLogger } from '@tgiardina/proxy-tools';
+import { sniffHttp, sniffWs } from "@tgiardina/sniff";
+import { casinos } from "gdonkey-translators";
+import { ControllerFactory, LibrarianFactory } from "./factories";
+import { Curator, MemCache, Stopwatch, Tallier, Wire } from "./models";
 import TYPES from "./types";
+import { Repositories } from "./repositories";
+import { Config } from "gdonkey-translators/src/interfaces";
 
+export default function getContainer(logger?: (obj: unknown) => void): Container {
 const container = new Container();
 // Utils
-container.bind<(err: Error) => void>(TYPES.HandleErr).toConstantValue((err) => {
-  console.log(err);
-  console.log(JSON.stringify(err));
+const _logger = logger 
+  ? logger 
+  : () => { /* Ignore logging */ };
+container.bind(TYPES.Logger).toConstantValue(_logger);
+container.bind(TYPES.HandleErr).toConstantValue((err: Error) => {
+  _logger(err);
+  _logger(JSON.stringify(err));
 });
-container.bind<Sniffer>(TYPES.SniffHttp).toConstantValue(sniffHttp);
-container.bind<Sniffer>(TYPES.SniffWs).toConstantValue(sniffWs);
+// Museum Pipeline
 container
-  .bind<typeof browser.storage>(TYPES.Storage)
-  .toConstantValue(browser.storage);
-container.bind<string>(TYPES.TokenName).toConstantValue("token");
-container.bind<MemCache<string>>(TYPES.TokenCache).to(MemCache);
-const tokenCache = <MemCache<string>>container.get(TYPES.TokenCache);
-container.bind<typeof axios>(TYPES.Axios).toConstantValue(axios);
-container
-  .bind<string>(TYPES.NarrationUrl)
+  .bind(TYPES.NarrationUrl)
   .toConstantValue(<string>process.env.NARRATION_API);
+container.bind(TYPES.Axios).toConstantValue(axios);
+container.bind<Wire>(TYPES.Wire).to(Wire).inSingletonScope().onActivation((_context, wire) => {
+  return addLogger(wire, _logger, "wire");
+});
+container.bind(TYPES.Stopwatch).to(Stopwatch);
+container.bind(TYPES.Tallier).to(Tallier);
+container.bind<Curator>(TYPES.Curator).to(Curator).onActivation((_context, curator) => {
+  return addLogger(curator, _logger, "curator");
+});
+container.bind(TYPES.Repos).to(Repositories).inSingletonScope();
+container.bind<LibrarianFactory>(TYPES.LibrarianFactory).to(LibrarianFactory).inSingletonScope().onActivation((_context, factory) => {
+  const ogCreate = factory.create.bind(factory);
+  factory.create = (config: Config) => addLogger(ogCreate(config), _logger, 'librarian');
+  return factory;
+});
+container.bind(TYPES.ControllerFactory).to(ControllerFactory).inSingletonScope;
+container.bind(TYPES.Casinos).toConstantValue(casinos);
+// Sniffers
+container.bind(TYPES.SniffHttp).toConstantValue(sniffHttp);
+container.bind(TYPES.SniffWs).toConstantValue(sniffWs);
+// Tokens
+container.bind(TYPES.TokenName).toConstantValue("token");
+container.bind(TYPES.Storage).toConstantValue(browser.storage);
+container.bind(TYPES.TokenCache).to(MemCache);
+const tokenCache = <MemCache<string>>container.get(TYPES.TokenCache);
 container
-  .bind<() => string | undefined>(TYPES.TokenGenerator)
-  .toConstantValue(tokenCache.read.bind(tokenCache));
-// Entities
-container.bind<Wire>(TYPES.Wire).to(Wire).inSingletonScope();
-container
-  .bind<Operator>(TYPES.Operator)
-  .to(Operator)
-  .inSingletonScope()
-  .onActivation((_context, operator) => {
-    return log(operator, console.log, "operator");
-  });
-container
-  .bind<Dispatcher>(TYPES.Dispatcher)
-  .to(Dispatcher)
-  .onActivation((_context, dispatcher) => {
-    return log(
-      airLock(
-        drainify(
-          syncify(log(dispatcher, console.log, "dispatcher")),
-          () => !tokenCache.read.bind(tokenCache)
-        ),
-        "endGame"
-      ),
-      console.log,
-      "predispatcher"
-    );
-  });
-container.bind<CuratorFactory>(TYPES.CuratorFactory).to(CuratorFactory);
-container
-  .bind<Record<string, Casino<unknown>>>(TYPES.Casinos)
-  .toConstantValue(casinos);
-
-export default container;
+  .bind(TYPES.TokenGenerator)
+  .toConstantValue(tokenCache.read.bind(tokenCache))
+  return container;
+}

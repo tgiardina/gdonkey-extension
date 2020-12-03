@@ -22,7 +22,7 @@ describe("SeatChart", () => {
     expect(chart.read(1)).toEqual(1);
   });
 
-  it("should read all nine values when calling forEach", () => {
+  it("should read only defined values when calling forEach", () => {
     let items: number[] = [];
     chart.forEach((item, index) => {
       items.push(item, index);
@@ -32,41 +32,20 @@ describe("SeatChart", () => {
       0,
       1,
       1,
-      undefined,
-      2,
-      undefined,
-      3,
-      undefined,
-      4,
-      undefined,
-      5,
-      undefined,
-      6,
-      undefined,
-      7,
-      undefined,
-      8,
     ]);
   });
 
-  it("should map all nine values when calling map", () => {
+  it("should map only defined values when calling map", () => {
     const items = chart.map((item, index) => {
       return [item, index];
     });
     expect(items).toEqual([
       [0, 0],
       [1, 1],
-      [undefined, 2],
-      [undefined, 3],
-      [undefined, 4],
-      [undefined, 5],
-      [undefined, 6],
-      [undefined, 7],
-      [undefined, 8],
     ]);
   });
 
-  it("should reduce all nine values when calling reduce", () => {
+  it("should reduce only defined values when calling reduce", () => {
     const items = chart.reduce((acc, item, index) => {
       acc.push([item, index]);
       return acc;
@@ -74,13 +53,6 @@ describe("SeatChart", () => {
     expect(items).toEqual([
       [0, 0],
       [1, 1],
-      [undefined, 2],
-      [undefined, 3],
-      [undefined, 4],
-      [undefined, 5],
-      [undefined, 6],
-      [undefined, 7],
-      [undefined, 8],
     ]);
   });
 

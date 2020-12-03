@@ -26,15 +26,15 @@ export default function (casino: string) {
       return { data: { casinos: [{ id: 1, name: casino }] } };
     } else if (url === `${baseUrl}/casinos/1/tables`) {
       return { data: { tables: [{ id: 1, bigBlind: 50, casinoId: 1 }] } };
-    } else if (url === `${baseUrl}/casinos/1/players/PlayerA`) {
-      return { data: { player: { id: 1 } } };
-    } else if (url === `${baseUrl}/casinos/1/players/PlayerB`) {
-      throw { response: { status: 404 } };
-    } else if (url.split("/").slice(-1)[0].substring(0, 4) === `anon`) {
+    } else if (url === `${baseUrl}/casinos/1/players?username=PlayerA`) {
+      return { data: { players: [{ id: 1 }] } };
+    } else if (url === `${baseUrl}/casinos/1/players?username=PlayerB`) {
+      return { data: { players: [] }};
+    } else if (url.split("=").slice(-1)[0].substring(0, 4) === `anon`) {
       if (anonPlayers++ === 0) {
-        return { data: { player: { id: 1 } } };
+        return { data: { players: [{ id: 1 }] } };
       } else {
-        throw { response: { status: 404 } };
+        return { data: { players: [] } };
       }
     }
   });

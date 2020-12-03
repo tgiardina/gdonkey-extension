@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import container from "./container";
+import getContainer from "./container";
 import init from "./init";
 import * as path from "path";
 
@@ -13,4 +13,4 @@ if (!process.env.NARRATION_API) throw new Error(".env is not set");
     });
 })();
 
-init(container);
+init(getContainer(console.log));

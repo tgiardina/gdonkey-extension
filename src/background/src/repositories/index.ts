@@ -9,20 +9,31 @@ import Pocket from "./Pocket";
 import Seat from "./Seat";
 import Table from "./Table";
 import TYPES from "../types";
+import Wire from "../models/wire";
 
 export { Action, Blind, Board, Casino, Game, Player, Pocket, Seat, Table };
 
 @injectable()
 export class Repositories {
-  constructor(
-    @inject(TYPES.ActionRepo) public action: Action,
-    @inject(TYPES.BlindRepo) public blind: Blind,
-    @inject(TYPES.BoardRepo) public board: Board,
-    @inject(TYPES.CasinoRepo) public casino: Casino,
-    @inject(TYPES.GameRepo) public game: Game,
-    @inject(TYPES.PlayerRepo) public player: Player,
-    @inject(TYPES.PocketRepo) public pocket: Pocket,
-    @inject(TYPES.SeatRepo) public seat: Seat,
-    @inject(TYPES.TableRepo) public table: Table
-  ) {}
+  public action: Action;
+  public blind: Blind;
+  public board: Board;
+  public casino: Casino;
+  public game: Game;
+  public player: Player;
+  public pocket: Pocket;
+  public seat: Seat;
+  public table: Table;
+
+  constructor(@inject(TYPES.Wire) wire: Wire) {
+    this.action = new Action(wire);
+    this.blind = new Blind(wire);
+    this.board = new Board(wire);
+    this.casino = new Casino(wire);
+    this.game = new Game(wire);
+    this.player = new Player(wire);
+    this.pocket = new Pocket(wire);
+    this.seat = new Seat(wire);
+    this.table = new Table(wire);
+  }
 }

@@ -1,20 +1,28 @@
-import { Sniffer } from "sniff";
-import container from "../src/container";
+import { Sniffer } from "@tgiardina/sniff";
+import getContainer from "../src/container";
 import TYPES from "../src/types";
 
 export default (
   mockedAxios: unknown,
   sniffHttp: Sniffer,
   sniffWs: Sniffer,
-  casino: string
 ) => {
-  container.rebind<Sniffer>(TYPES.SniffHttp).toConstantValue(sniffHttp);
-  container.rebind<Sniffer>(TYPES.SniffWs).toConstantValue(sniffWs);
-  container.rebind<string>(TYPES.TokenName).toConstantValue("token");
-  container.rebind<unknown>(TYPES.Axios).toConstantValue(mockedAxios);
-  container.rebind<string>(TYPES.NarrationUrl).toConstantValue("fake-url");
+  const container = getContainer(console.log);
+  // Museum Pipeline
+  container.rebind(TYPES.NarrationUrl).toConstantValue("fake-url");
   container
-    .rebind<() => string | undefined>(TYPES.TokenGenerator)
-    .toConstantValue(() => "token");
+    .rebind(TYPES.TokenGenerator)
+    .toConstantValue(() => "token");  
+  // Snifferes
+  container.rebind(TYPES.SniffHttp).toConstantValue(sniffHttp);
+  container.rebind(TYPES.SniffWs).toConstantValue(sniffWs);
+  // Tokens
+  container.rebind(TYPES.TokenName).toConstantValue("token");
+  // Utils
+  // container.rebind(TYPES.Logger).toConstantValue(() => { /* Don't log during tests. */})
+  container.rebind(TYPES.HandleErr).toConstantValue((err: Error) => { throw err });
+  container.rebind(TYPES.Axios).toConstantValue(mockedAxios);
+
+
   return container;
 };

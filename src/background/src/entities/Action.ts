@@ -1,4 +1,4 @@
-import { ActionType, Street } from '../enums';
+import { ActionType, Street } from "../enums";
 import { AlreadyPublishedError } from "../errors";
 import { Row } from "../interfaces";
 import Wire from "../models/wire";
@@ -9,12 +9,17 @@ export default class Action extends Entity {
     private wire: Wire,
     public readonly seat: number,
     private type: ActionType,
-    private amount: number | undefined,
+    private amount: number | undefined
   ) {
     super();
   }
 
-  public async publish(seatId: number, street: Street, tally: number, delay: number): Promise<void> {
+  public async publish(
+    seatId: number,
+    street: Street,
+    tally: number,
+    delay: number
+  ): Promise<void> {
     if (this.id) throw new AlreadyPublishedError("action", this.id);
     const record = <Row>await this.wire.post("/actions", {
       action: {

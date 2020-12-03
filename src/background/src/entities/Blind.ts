@@ -1,4 +1,4 @@
-import { BlindType, Street } from '../enums';
+import { BlindType, Street } from "../enums";
 import { AlreadyPublishedError } from "../errors";
 import { Row } from "../interfaces";
 import Wire from "../models/wire";
