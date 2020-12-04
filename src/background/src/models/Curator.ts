@@ -106,7 +106,7 @@ export default class Curator {
     if (this.game?.id === undefined) throw new UndefinedGameError();
     if (!this.board) throw new UndefinedBoardError();
     this.pockets = pockets;
-    this.game.end();    
+    this.game.end();
     await this.syncPockets();
     await this.game.sync(this.table.id);
   }

@@ -25,8 +25,19 @@ export default async (container: Container) => {
   const router = new Router(
     Object.values(casinos).map((casino) => {
       const config = casino.config;
-      const controller = addQueue(addLogger(controllerFactory.create(config), logger, `${config.name}.controller`), handleError);
-      const translator = addLogger(addTranslator(new casino.Translator(controller), casino.parse), logger, `${config.name}.translator`);
+      const controller = addQueue(
+        addLogger(
+          controllerFactory.create(config),
+          logger,
+          `${config.name}.controller`
+        ),
+        handleError
+      );
+      const translator = addLogger(
+        addTranslator(new casino.Translator(controller), casino.parse),
+        logger,
+        `${config.name}.translator`
+      );
       return {
         urls: casino.config.srcUrls,
         init: () => translator,

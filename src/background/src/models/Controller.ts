@@ -57,7 +57,7 @@ export default class Controller {
   }
 
   public async arrangeGame(): Promise<void> {
-    if(!this.isInit) return;
+    if (!this.isInit) return;
     const casino = this.librarian.retrieveCasino();
     const table = this.librarian.retrieveTable();
     const game = this.librarian.retrieveGame();
@@ -99,7 +99,7 @@ export default class Controller {
   }
 
   public async exhibitGame(): Promise<void> {
-    if(!this.isInit) return;
+    if (!this.isInit) return;
     const pockets = this.librarian.retrievePockets();
     await this.curator.exhibitGame(pockets);
   }

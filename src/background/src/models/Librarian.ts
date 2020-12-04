@@ -152,9 +152,11 @@ export default class Librarian {
     return !!this.isActives.read(seat);
   }
 
-  public emptyShelves(options?: { except?: { players?: boolean, stacks?: boolean } }): void {
+  public emptyShelves(options?: {
+    except?: { players?: boolean; stacks?: boolean };
+  }): void {
     if (!options?.except?.players) this.players = new SeatChart();
-    if (!options?.except?.stacks) this.stacks = new SeatChart();    
+    if (!options?.except?.stacks) this.stacks = new SeatChart();
     this.isActives = new SeatChart();
     this.missedBlinds = new SeatChart();
     this.blinds = [];
@@ -169,7 +171,10 @@ export default class Librarian {
     return this.isActives.reduce((blinds, isActive, seat) => {
       if (!isActive) return blinds;
       const position = mapper.map(seat);
-      if ((this.isActives.length === 2 && position === 0) || (this.isActives.length > 2 && position === 1)) {
+      if (
+        (this.isActives.length === 2 && position === 0) ||
+        (this.isActives.length > 2 && position === 1)
+      ) {
         blinds.push(
           this.repos.blind.create(seat, BlindType.PostBlind, bigBlind)
         );

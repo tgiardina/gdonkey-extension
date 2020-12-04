@@ -8,7 +8,7 @@ module.exports = {
   devtool: 'inline-source-map',      
   mode: "development",  
   entry: {
-    // background: './src/background/src/index.ts',
+    background: './src/background/src/index.ts',
     content: './src/content/src/index.ts',
     popup: './src/popup/src/index.js'
   },
@@ -17,7 +17,7 @@ module.exports = {
       {
         test: /\.ts?$/,
         use: 'ts-loader',
-        exclude: /node_modules/,
+        exclude: /node_modules/,        
       },
       {
         test: /\.(js|jsx)$/,

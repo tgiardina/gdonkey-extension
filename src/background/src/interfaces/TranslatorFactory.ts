@@ -1,4 +1,4 @@
-import Curator from "../m/curator";
+import { Curator } from "../models";
 import Translator from "./Translator";
 
 export default interface TranslatorFactory<T> {

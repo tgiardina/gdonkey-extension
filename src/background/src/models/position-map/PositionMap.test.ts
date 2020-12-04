@@ -19,7 +19,7 @@ describe("PositionMap", () => {
     const map = new PositionMap(3, isActives);
     expect(map.map(6)).toEqual(0);
     expect(map.map(3)).toEqual(1);
-  });  
+  });
 
   it("should throw correct errors", () => {
     const map = new PositionMap(0, new SeatChart());
