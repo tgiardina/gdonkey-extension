@@ -18,8 +18,8 @@ export default class Controller {
   }
 
   public startNewGame(): void {
-    this.librarian.emptyShelves({ except: { players: true, stacks: true } });
-    this.curator.clearExhibit({ except: { user: true } });
+    this.librarian.emptyShelves({ except: { players: true, stacks: true , user: true } });
+    this.curator.clearExhibit();
     this.isInit = true;
   }
 
@@ -44,7 +44,7 @@ export default class Controller {
   }
 
   public identifyUser(seat: number): void {
-    this.curator.identifyUser(seat);
+    this.librarian.documentUser(seat);
   }
 
   public activateSeat(seat: number): void {
@@ -63,6 +63,7 @@ export default class Controller {
     const game = this.librarian.retrieveGame();
     const board = this.librarian.retrieveNewBoard();
     const spots = this.librarian.retrieveSpots();
+    const user = this.librarian.retrieveUser();
     const blinds = this.librarian.retrieveBlinds();
     const pockets = this.librarian.retrievePockets();
     await this.curator.arrangeGame(
@@ -71,6 +72,7 @@ export default class Controller {
       game,
       board,
       spots,
+      user,
       blinds,
       pockets
     );

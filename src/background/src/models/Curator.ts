@@ -30,7 +30,6 @@ export default class Curator {
   private table?: Table;
   private spots?: SeatChart<{ player: Player; seat: Seat }>;
   private pockets: SeatChart<Pocket>;
-  private user?: number;
   private game?: Game;
   private board?: Board;
 
@@ -41,8 +40,7 @@ export default class Curator {
     this.pockets = new SeatChart();
   }
 
-  public clearExhibit(options?: { except?: { user: boolean } }): void {
-    if (!options?.except?.user) delete this.user;
+  public clearExhibit(): void {
     this.pockets = new SeatChart();
     delete this.casino;
     delete this.table;
@@ -51,16 +49,13 @@ export default class Curator {
     delete this.board;
   }
 
-  public identifyUser(seat: number): void {
-    this.user = seat;
-  }
-
   public async arrangeGame(
     casino: Casino,
     table: Table,
     game: Game,
     board: Board,
     spots: SeatChart<{ player: Player; seat: Seat }>,
+    user: number | undefined,
     blinds: Blind[],
     pockets: SeatChart<Pocket>
   ): Promise<void> {
@@ -74,7 +69,7 @@ export default class Curator {
     await this.casino.sync();
     await this.table.sync(<number>this.casino.id);
     await this.game.sync(<number>this.table.id);
-    await this.publishPlayers();
+    await this.publishPlayers(user);
     await this.publishSeats();
     await Promise.all([this.publishBlinds(blinds), this.syncPockets()]);
   }
@@ -111,14 +106,15 @@ export default class Curator {
     await this.game.sync(this.table.id);
   }
 
-  private async publishPlayers(): Promise<void> {
+  private async publishPlayers(user?: number): Promise<void> {
+    console.log(user);
     if (this.casino?.id === undefined) throw new UndefinedCasinoError();
     if (!this.spots) throw new UninitiatedSpotsError();
     const casinoId = this.casino.id;
     await Promise.all(
       this.spots.map(async ({ player }) => {
         if (this.casino?.id === undefined) throw new UndefinedCasinoError();
-        player.isUser = this.user === player.seat;
+        player.isUser = user === player.seat;
         await player.sync(this.casino.id);
       })
     );

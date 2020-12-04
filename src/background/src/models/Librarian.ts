@@ -31,6 +31,7 @@ export default class Librarian {
   private smallBlind?: number;
   private game?: Game;
   private players: SeatChart<Player>;
+  private user?: number;
   private button?: number;
   private stacks: SeatChart<number>;
   private isActives: SeatChart<boolean>;
@@ -70,6 +71,10 @@ export default class Librarian {
 
   public collectStack(seat: number, stack: number): void {
     this.stacks.write(seat, stack);
+  }
+
+  public documentUser(seat: number): void {
+    this.user = seat;
   }
 
   public documentButton(seat: number): void {
@@ -123,6 +128,10 @@ export default class Librarian {
     }, <SeatChart<{ player: Player; seat: Seat }>>new SeatChart());
   }
 
+  public retrieveUser(): number | undefined {
+    return this.user;
+  }
+
   public retrieveBlinds(): Blind[] {
     if (!this.config.hasImplicitBlinds) {
       return this.blinds;
@@ -153,10 +162,11 @@ export default class Librarian {
   }
 
   public emptyShelves(options?: {
-    except?: { players?: boolean; stacks?: boolean };
+    except?: { players?: boolean; stacks?: boolean, user?: boolean };
   }): void {
     if (!options?.except?.players) this.players = new SeatChart();
     if (!options?.except?.stacks) this.stacks = new SeatChart();
+    if (!options?.except?.user) delete this.user
     this.isActives = new SeatChart();
     this.missedBlinds = new SeatChart();
     this.blinds = [];
