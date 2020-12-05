@@ -7,7 +7,6 @@
       "DOM"
     ],
     "outDir": "build",
-    "rootDir": "src",
     "strict": true,
     "noImplicitAny": true, 
     "esModuleInterop": true,
@@ -16,7 +15,7 @@
     "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"]
   },  
   "include": [
-    "src/**/*", "tests/test", "jest.config.popup.js",
+    "src/**/*",
   ],
   "exclude": [
     "**/*.test.ts",

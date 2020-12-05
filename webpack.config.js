@@ -8,9 +8,9 @@ module.exports = {
   devtool: 'inline-source-map',      
   mode: "development",  
   entry: {
-    background: './src/background/src/index.ts',
-    content: './src/content/src/index.ts',
-    popup: './src/popup/src/index.js'
+    background: './src/background/index.ts',
+    content: './src/content/index.ts',
+    popup: './src/popup/js/index.js'
   },
   module: {
     rules: [
@@ -79,7 +79,7 @@ module.exports = {
     }),
     new Dotenv({ path: './.env' }),
     new HtmlWebpackPlugin({
-      template: "./src/popup/public/index.html",
+      template: "./src/popup/html/index.html",
       filename: "./popup.html",
     }),    
   ],  
