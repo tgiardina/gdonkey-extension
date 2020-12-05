@@ -16,11 +16,10 @@
     "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"]
   },  
   "include": [
-    "src/**/*",
+    "src/**/*", "tests/test", "jest.config.popup.js",
   ],
   "exclude": [
-    "src/**/*.test.ts",
+    "**/*.test.ts",
     "**/tests/**/*",
-    "**/gdonkey-translators/**/*"
   ]
 }
