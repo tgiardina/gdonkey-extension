@@ -107,7 +107,6 @@ export default class Curator {
   }
 
   private async publishPlayers(user?: number): Promise<void> {
-    console.log(user);
     if (this.casino?.id === undefined) throw new UndefinedCasinoError();
     if (!this.spots) throw new UninitiatedSpotsError();
     const casinoId = this.casino.id;

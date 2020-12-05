@@ -13,7 +13,7 @@
     "lint": "web-ext lint && npm run lint:background && npm run lint:popup",
     "lint:background": "eslint -c .eslintrc.background.js src/background",
     "lint:popup": "eslint -c .eslintrc.popup.js src/popup",
-    "watch": "concurrently -k \"webpack watch\" \"web-ext run\""
+    "watch": "concurrently -k \"webpack --watch\" \"web-ext run\""
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -59,7 +59,7 @@
     "webpack-cli": "^4.2.0"
   },
   "dependencies": {
-    "@tgiardina/proxy-tools": "^0.0.9",
+    "@tgiardina/proxy-tools": "^0.0.10",
     "@tgiardina/sniff": "^1.0.1",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.2",

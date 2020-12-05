@@ -1,5 +1,5 @@
 import { Container } from "inversify";
-import { addLogger, addQueue, addTranslator } from "@tgiardina/proxy-tools";
+import { addLogger, addSplitter, addQueue, addTranslator } from "@tgiardina/proxy-tools";
 import { SniffedMessage, Sniffer } from "@tgiardina/sniff";
 import { ControllerFactory } from "./factories";
 import { MemCache, Router } from "./models";
@@ -34,7 +34,7 @@ export default async (container: Container) => {
         handleError
       );
       const translator = addLogger(
-        addTranslator(new casino.Translator(controller), casino.parse),
+        addTranslator(addSplitter(new casino.Translator(controller)), casino.parse),
         logger,
         `${config.name}.translator`
       );
