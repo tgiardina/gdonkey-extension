@@ -281,6 +281,27 @@ export default function (
       );
     });
 
+    it(`should have put pocket`, () => {
+      expect(axios.put).toHaveBeenCalledWith(
+        `fake-url/seats/1/pocket`,
+        {
+          pocket: {
+            cards: [
+              {
+                rank: 3,
+                suit: 2,
+              },
+              {
+                rank: 3,
+                suit: 1,
+              },              
+            ],
+          },
+        },
+        { headers: { Authorization: "Bearer token" } }
+      );
+    });    
+
     it(`should have patched endedAt`, () => {
       expect(axios.patch).toHaveBeenCalledWith(
         `fake-url/games/1`,

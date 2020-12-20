@@ -53,6 +53,10 @@ const events = [
   { card1: { suit: 2, rank: 3 }, typeName: "RiverEvent" },
   { seat: 1, typeName: "CheckCallEvent" },
   { seat: 0, typeName: "CheckCallEvent" },
+  { seat: 0, typeName: "PocketCardsEvent",
+  card1: { rank: 3, suit: 2 },
+  card2: { rank: 3, suit: 1 }
+ },  
   { typeName: "TakesPotEvent" },
 ];
 

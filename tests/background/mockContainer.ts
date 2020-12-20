@@ -3,7 +3,7 @@ import getContainer from "../../src/background/container";
 import TYPES from "../../src/background/types";
 
 export default (mockedAxios: unknown, sniffHttp: Sniffer, sniffWs: Sniffer) => {
-  const container = getContainer();
+  const container = getContainer((() => {/* Don't log anything */}));
   // Museum Pipeline
   container.rebind(TYPES.NarrationUrl).toConstantValue("fake-url");
   container.rebind(TYPES.TokenGenerator).toConstantValue(() => "token");
@@ -13,10 +13,6 @@ export default (mockedAxios: unknown, sniffHttp: Sniffer, sniffWs: Sniffer) => {
   // Tokens
   container.rebind(TYPES.TokenName).toConstantValue("token");
   // Utils
-  // container.rebind(TYPES.Logger).toConstantValue(() => { /* Don't log during tests. */})
-  container.rebind(TYPES.HandleErr).toConstantValue((err: Error) => {
-    throw err;
-  });
   container.rebind(TYPES.Axios).toConstantValue(mockedAxios);
 
   return container;

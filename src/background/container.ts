@@ -9,20 +9,13 @@ import TYPES from "./types";
 import { Repositories } from "./repositories";
 import { Config } from "gdonkey-translators/src/interfaces";
 
-export default function getContainer(
-  logger?: (obj: unknown) => void
-): Container {
+export default function getContainer(logger: (obj: unknown) => void): Container {
   const container = new Container();
   // Utils
-  const _logger = logger
-    ? logger
-    : () => {
-        /* Ignore logging */
-      };
-  container.bind(TYPES.Logger).toConstantValue(_logger);
+  container.bind(TYPES.Logger).toConstantValue(logger);
   container.bind(TYPES.HandleErr).toConstantValue((err: Error) => {
-    _logger(err);
-    _logger(JSON.stringify(err));
+    logger(err);
+    logger(JSON.stringify(err)); 
   });
   // Museum Pipeline
   container
@@ -36,7 +29,7 @@ export default function getContainer(
     .bind<Curator>(TYPES.Curator)
     .to(Curator)
     .onActivation((_context, curator) => {
-      return addLogger(curator, _logger, "curator");
+      return addLogger(curator, logger, "curator");
     });
   container.bind(TYPES.Repos).to(Repositories).inSingletonScope();
   container
@@ -46,7 +39,7 @@ export default function getContainer(
     .onActivation((_context, factory) => {
       const ogCreate = factory.create.bind(factory);
       factory.create = (config: Config) =>
-        addLogger(ogCreate(config), _logger, "librarian");
+        addLogger(ogCreate(config), logger, "librarian");
       return factory;
     });
   container.bind(TYPES.ControllerFactory).to(ControllerFactory)

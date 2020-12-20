@@ -19,7 +19,7 @@ export default class Controller {
 
   public startNewGame(): void {
     this.librarian.emptyShelves({
-      except: { players: true, stacks: true, user: true },
+      except: { game: true, players: true, stacks: true, user: true },
     });
     this.curator.clearExhibit();
     this.isInit = true;

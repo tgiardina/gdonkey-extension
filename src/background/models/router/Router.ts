@@ -28,13 +28,10 @@ export default class Router<T> {
   }
 
   public connect(tabId: number, url: string): T {
-    if (!this.tabs[tabId]) {
+    if (!this.tabs[tabId] || !isMatch(url, this.tabs[tabId].urls)) {
       this.initTab(tabId, url);
-      return this.tabs[tabId]?.instance;
-    }
-    if (!this.tabs[tabId] || !isMatch(url, this.tabs[tabId].urls))
-      this.initTab(tabId, url);
-    return this.tabs[tabId]?.instance;
+    } 
+    return this.tabs[tabId]?.instance;    
   }
 
   public disconnect(tabId: number): void {

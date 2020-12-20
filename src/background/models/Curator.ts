@@ -76,6 +76,7 @@ export default class Curator {
 
   public async presentAction(action: Action): Promise<void> {
     if (!this.board) throw new UndefinedBoardError();
+    /* istanbul ignore next */
     if (!this.spots) throw new UndefinedSeatError(action.seat);
     const street = this.board.street;
     const delay = this.stopwatch.click();
@@ -92,13 +93,16 @@ export default class Curator {
 
   public async presentBoard(): Promise<void> {
     if (!this.game?.id) throw new UndefinedGameError();
+    /* istanbul ignore next */
     if (!this.board) throw new UndefinedBoardError();
     await this.board.sync(this.game.id);
   }
 
   public async exhibitGame(pockets: SeatChart<Pocket>): Promise<void> {
     if (this.table?.id === undefined) throw new UndefinedTableError();
+    /* istanbul ignore next */    
     if (this.game?.id === undefined) throw new UndefinedGameError();
+    /* istanbul ignore next */    
     if (!this.board) throw new UndefinedBoardError();
     this.pockets = pockets;
     this.game.end();
@@ -107,25 +111,28 @@ export default class Curator {
   }
 
   private async publishPlayers(user?: number): Promise<void> {
+    /* istanbul ignore next */
     if (this.casino?.id === undefined) throw new UndefinedCasinoError();
+    /* istanbul ignore next */    
     if (!this.spots) throw new UninitiatedSpotsError();
     const casinoId = this.casino.id;
     await Promise.all(
       this.spots.map(async ({ player }) => {
-        if (this.casino?.id === undefined) throw new UndefinedCasinoError();
         player.isUser = user === player.seat;
-        await player.sync(this.casino.id);
+        await player.sync(casinoId);
       })
     );
   }
 
   private async publishSeats(): Promise<void> {
-    let a = 1;
+    /* istanbul ignore next */    
     if (!this.game?.id) throw new UndefinedGameError();
+    /* istanbul ignore next */    
     if (!this.spots) throw new UninitiatedSpotsError();
     const gameId = this.game.id;
     await Promise.all(
       this.spots.map(async ({ seat, player }) => {
+        /* istanbul ignore next */            
         if (!player.id) throw new UndefinedPlayerError(player.seat);
         await seat.publish(gameId, player.id);
       })
@@ -133,6 +140,7 @@ export default class Curator {
   }
 
   private async publishBlinds(blinds: Blind[]): Promise<void> {
+    /* istanbul ignore next */        
     if (!this.spots) throw new UninitiatedSpotsError();
     const spots = this.spots;
     await Promise.all(
@@ -145,6 +153,7 @@ export default class Curator {
   }
 
   private async syncPockets(): Promise<void> {
+    /* istanbul ignore next */
     if (!this.spots) throw new UninitiatedSpotsError();
     const spots = this.spots;
     await Promise.all(

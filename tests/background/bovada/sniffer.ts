@@ -91,6 +91,11 @@ const events = [
     seat: 1,
     btn: 64,
   },
+  { 
+    pid: "CO_PCARD_INFO",    
+    seat: 1, 
+    card: [ 30, 17 ]
+  },    
   {
     pid: "CO_RESULT_INFO",
     account: [1500, 5000, 0, 0, 0, 0, 0, 0, 0],

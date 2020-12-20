@@ -13,7 +13,6 @@ import { ActionType, BlindSize, BlindType, Street } from "../enums";
 import {
   InactiveSeatError,
   UndefinedButtonError,
-  UndefinedCasinoError,
   UndefinedGameError,
   UndefinedPlayerError,
   UndefinedStackError,
@@ -47,10 +46,6 @@ export default class Librarian {
     this.missedBlinds = new SeatChart();
     this.blinds = [];
     this.pockets = new SeatChart();
-  }
-
-  public shelfCasino(name: string): void {
-    this.casino = this.repos.casino.create(name);
   }
 
   public collectBlindSize(type: BlindSize, amount: number): void {
@@ -98,7 +93,6 @@ export default class Librarian {
   }
 
   public retrieveCasino(): Casino {
-    if (!this.casino) throw new UndefinedCasinoError();
     return this.casino;
   }
 
@@ -116,7 +110,6 @@ export default class Librarian {
     if (this.button === undefined) throw new UndefinedButtonError();
     const mapper = new PositionMap(this.button, this.isActives);
     return this.isActives.reduce((seats, isActive, seat) => {
-      if (!isActive) return seats;
       const player = this.players.read(seat);
       const stack = this.stacks.read(seat);
       const position = mapper.map(seat);
@@ -162,14 +155,15 @@ export default class Librarian {
   }
 
   public emptyShelves(options?: {
-    except?: { players?: boolean; stacks?: boolean; user?: boolean };
+    except?: { game?: boolean, players?: boolean; stacks?: boolean; user?: boolean };
   }): void {
+    if (!options?.except?.game) delete this.game;    
     if (!options?.except?.players) this.players = new SeatChart();
     if (!options?.except?.stacks) this.stacks = new SeatChart();
     if (!options?.except?.user) delete this.user;
     this.isActives = new SeatChart();
-    this.missedBlinds = new SeatChart();
     this.blinds = [];
+    this.missedBlinds = new SeatChart();
     this.pockets = new SeatChart();
   }
 
@@ -179,7 +173,6 @@ export default class Librarian {
     const { bigBlind, smallBlind } = this;
     const mapper = new PositionMap(this.button, this.isActives);
     return this.isActives.reduce((blinds, isActive, seat) => {
-      if (!isActive) return blinds;
       const position = mapper.map(seat);
       if (
         (this.isActives.length === 2 && position === 0) ||
@@ -188,6 +181,7 @@ export default class Librarian {
         blinds.push(
           this.repos.blind.create(seat, BlindType.PostBlind, bigBlind)
         );
+        this.missedBlinds.erase(seat);
       } else if (
         (this.isActives.length === 2 && position === 1) ||
         (this.isActives.length > 2 && position === 0)
@@ -195,18 +189,21 @@ export default class Librarian {
         blinds.push(
           this.repos.blind.create(seat, BlindType.PostBlind, smallBlind)
         );
+        this.missedBlinds.erase(seat);        
       }
       return blinds;
     }, <Blind[]>[]);
   }
 
   private retrieveMissedBlinds(): Blind[] {
+    /* istanbul ignore next */
     if (!this.bigBlind) throw new UndefinedTableError();
     const bigBlind = this.bigBlind;
-    return this.missedBlinds.reduce((blinds, isMissed, seat) => {
-      const isActive = this.isActives.read(seat);
-      if (!(isMissed && isActive)) return blinds;
+    return this.isActives.reduce((blinds, _isActive, seat) => {
+      const isMissed = this.missedBlinds.read(seat);
+      if (!isMissed) return blinds;
       blinds.push(this.repos.blind.create(seat, BlindType.PostBlind, bigBlind));
+      this.missedBlinds.erase(seat);      
       return blinds;
     }, <Blind[]>[]);
   }

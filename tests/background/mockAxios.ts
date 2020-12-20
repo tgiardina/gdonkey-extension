@@ -16,7 +16,7 @@ export default function (casino: string) {
       return { data: { player: { id: 2 } } };
     } else if (url === `${baseUrl}/seats`) {
       return { data: { seat: { id: seatId++ } } };
-    } else if (url === `${baseUrl}/actions`) {
+    } else { // if (url === `${baseUrl}/actions`) {
       return { data: { action: {} } };
     }
   });
@@ -30,7 +30,7 @@ export default function (casino: string) {
       return { data: { players: [{ id: 1 }] } };
     } else if (url === `${baseUrl}/casinos/1/players?username=PlayerB`) {
       return { data: { players: [] } };
-    } else if (url.split("=").slice(-1)[0].substring(0, 4) === `anon`) {
+    } else { // if (url.split("=").slice(-1)[0].substring(0, 4) === `anon`) {
       if (anonPlayers++ === 0) {
         return { data: { players: [{ id: 1 }] } };
       } else {
