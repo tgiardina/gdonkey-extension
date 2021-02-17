@@ -1,7 +1,6 @@
 import { Blind } from "../entities";
 import { BlindType } from "../enums";
 import Wire from "../models/wire";
-import TYPES from "../types";
 
 export default class BlindRepository {
   constructor(private wire: Wire) {}

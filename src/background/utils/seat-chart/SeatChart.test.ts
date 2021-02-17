@@ -23,7 +23,7 @@ describe("SeatChart", () => {
   });
 
   it("should read only defined values when calling forEach", () => {
-    let items: number[] = [];
+    const items: number[] = [];
     chart.forEach((item, index) => {
       items.push(item, index);
     });

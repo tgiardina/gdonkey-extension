@@ -1,8 +1,9 @@
 import { Sniffer } from "@tgiardina/sniff";
+import { Container } from "inversify";
 import getContainer from "../../src/background/container";
 import TYPES from "../../src/background/types";
 
-export default (mockedAxios: unknown, sniffHttp: Sniffer, sniffWs: Sniffer) => {
+export default function mockContainer(mockedAxios: unknown, sniffHttp: Sniffer, sniffWs: Sniffer): Container {
   const container = getContainer((() => {/* Don't log anything */}));
   // Museum Pipeline
   container.rebind(TYPES.NarrationUrl).toConstantValue("fake-url");
@@ -16,4 +17,4 @@ export default (mockedAxios: unknown, sniffHttp: Sniffer, sniffWs: Sniffer) => {
   container.rebind(TYPES.Axios).toConstantValue(mockedAxios);
 
   return container;
-};
+}

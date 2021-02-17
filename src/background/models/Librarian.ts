@@ -1,3 +1,4 @@
+import { GameType } from "gdonkey-translators/src/enums";
 import {
   Action,
   Blind,
@@ -9,7 +10,7 @@ import {
   Seat,
   Table,
 } from "../entities";
-import { ActionType, BlindSize, BlindType, Street } from "../enums";
+import { ActionType, BlindSize, BlindType } from "../enums";
 import {
   InactiveSeatError,
   UndefinedButtonError,
@@ -29,6 +30,7 @@ export default class Librarian {
   private bigBlind?: number;
   private smallBlind?: number;
   private game?: Game;
+  private gameType?: GameType;
   private players: SeatChart<Player>;
   private user?: number;
   private button?: number;
@@ -68,6 +70,10 @@ export default class Librarian {
     this.stacks.write(seat, stack);
   }
 
+  public documentGameType(type: GameType): void {
+    this.gameType = type;
+  }
+
   public documentUser(seat: number): void {
     this.user = seat;
   }
@@ -76,11 +82,11 @@ export default class Librarian {
     this.button = seat;
   }
 
-  public documentActiveSeat(seat: number) {
+  public documentActiveSeat(seat: number): void {
     this.isActives.write(seat, true);
   }
 
-  public documentMissedBlind(seat: number) {
+  public documentMissedBlind(seat: number): void {
     this.missedBlinds.write(seat, true);
   }
 
@@ -97,8 +103,8 @@ export default class Librarian {
   }
 
   public retrieveTable(): Table {
-    if (!(this.bigBlind && this.smallBlind)) throw new UndefinedTableError();
-    return this.repos.table.create(this.bigBlind, this.smallBlind);
+    if (!(this.bigBlind && this.smallBlind && this.gameType)) throw new UndefinedTableError();
+    return this.repos.table.create(this.gameType, this.bigBlind, this.smallBlind);
   }
 
   public retrieveGame(): Game {
@@ -155,9 +161,14 @@ export default class Librarian {
   }
 
   public emptyShelves(options?: {
-    except?: { game?: boolean, players?: boolean; stacks?: boolean; user?: boolean };
+    except?: {
+      game?: boolean;
+      players?: boolean;
+      stacks?: boolean;
+      user?: boolean;
+    };
   }): void {
-    if (!options?.except?.game) delete this.game;    
+    if (!options?.except?.game) delete this.game;
     if (!options?.except?.players) this.players = new SeatChart();
     if (!options?.except?.stacks) this.stacks = new SeatChart();
     if (!options?.except?.user) delete this.user;
@@ -189,7 +200,7 @@ export default class Librarian {
         blinds.push(
           this.repos.blind.create(seat, BlindType.PostBlind, smallBlind)
         );
-        this.missedBlinds.erase(seat);        
+        this.missedBlinds.erase(seat);
       }
       return blinds;
     }, <Blind[]>[]);
@@ -203,7 +214,7 @@ export default class Librarian {
       const isMissed = this.missedBlinds.read(seat);
       if (!isMissed) return blinds;
       blinds.push(this.repos.blind.create(seat, BlindType.PostBlind, bigBlind));
-      this.missedBlinds.erase(seat);      
+      this.missedBlinds.erase(seat);
       return blinds;
     }, <Blind[]>[]);
   }

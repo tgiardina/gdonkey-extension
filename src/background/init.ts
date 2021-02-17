@@ -1,12 +1,17 @@
 import { Container } from "inversify";
-import { addLogger, addSplitter, addQueue, addTranslator } from "@tgiardina/proxy-tools";
+import {
+  addLogger,
+  addSplitter,
+  addQueue,
+  addTranslator,
+} from "@tgiardina/proxy-tools";
 import { SniffedMessage, Sniffer } from "@tgiardina/sniff";
 import { ControllerFactory } from "./factories";
 import { MemCache, Router } from "./models";
 import TYPES from "./types";
 import { Casinos } from "gdonkey-translators";
 
-export default async (container: Container) => {
+export default async function init(container: Container): Promise<void> {
   const tokenCache = <MemCache<string>>container.get(TYPES.TokenCache);
   // Sniffers
   const sniffHttp = <Sniffer>container.get(TYPES.SniffHttp);
@@ -34,7 +39,10 @@ export default async (container: Container) => {
         handleError
       );
       const translator = addLogger(
-        addTranslator(addSplitter(new casino.Translator(controller)), casino.parse),
+        addTranslator(
+          addSplitter(new casino.Translator(controller)),
+          casino.parse
+        ),
         logger,
         `${config.name}.translator`
       );
@@ -51,6 +59,7 @@ export default async (container: Container) => {
     try {
       translator.translate(msg.data);
     } catch (err) {
+      /* istanbul ignore next */            
       handleError(err);
     }
   };
@@ -61,4 +70,4 @@ export default async (container: Container) => {
   browser.tabs.onRemoved.addListener((tabId) => {
     router.disconnect(tabId);
   });
-};
+}

@@ -1,6 +1,5 @@
 import { Game } from "../entities";
 import Wire from "../models/wire";
-import TYPES from "../types";
 
 export default class GameRepository {
   constructor(private wire: Wire) {}

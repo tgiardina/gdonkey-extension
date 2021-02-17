@@ -1,4 +1,6 @@
-export default function (casino: string) {
+import { AxiosStatic as Axios} from 'axios';
+
+export default function (casino: string): Axios {
   const mockAxios = {
     post: jest.fn(),
     get: jest.fn(),
@@ -25,7 +27,7 @@ export default function (casino: string) {
     if (url === `${baseUrl}/casinos`) {
       return { data: { casinos: [{ id: 1, name: casino }] } };
     } else if (url === `${baseUrl}/casinos/1/tables`) {
-      return { data: { tables: [{ id: 1, bigBlind: 50, casinoId: 1 }] } };
+      return { data: { tables: [{ id: 1, gameType: "Cash", bigBlind: 50, casinoId: 1 }] } };
     } else if (url === `${baseUrl}/casinos/1/players?username=PlayerA`) {
       return { data: { players: [{ id: 1 }] } };
     } else if (url === `${baseUrl}/casinos/1/players?username=PlayerB`) {
@@ -38,5 +40,5 @@ export default function (casino: string) {
       }
     }
   });
-  return mockAxios;
+  return <Axios><unknown>mockAxios;
 }

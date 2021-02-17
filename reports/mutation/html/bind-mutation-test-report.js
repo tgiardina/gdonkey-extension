@@ -1,0 +1,1 @@
+document.querySelector('mutation-test-report-app').report = {"files":{},"schemaVersion":"1.0","thresholds":{"high":80,"low":60,"break":null}};

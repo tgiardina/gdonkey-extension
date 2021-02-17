@@ -1,7 +1,6 @@
 import { Pocket } from "../entities";
 import { Card } from "../interfaces";
 import Wire from "../models/wire";
-import TYPES from "../types";
 
 export default class PocketRepository {
   constructor(private wire: Wire) {}

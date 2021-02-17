@@ -4,7 +4,7 @@ interface cookie {
   token: string | null;
 }
 
-let listener: () => {};
+let listener: () => { /* Dummy */ };
 const storage = {
   sync: {
     get: function (): cookie {

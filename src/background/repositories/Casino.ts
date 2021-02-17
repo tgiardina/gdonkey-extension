@@ -1,6 +1,5 @@
 import { Casino } from "../entities";
 import Wire from "../models/wire";
-import TYPES from "../types";
 
 export default class CasinoRepository {
   constructor(private wire: Wire) {}

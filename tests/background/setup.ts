@@ -1,4 +1,24 @@
 import "reflect-metadata";
+
+interface Global {
+  browser: {
+    storage: {
+      sync: {    
+        get(): { token: string },
+      },
+      onChanged: {
+        addListener(): void,
+        removeListener(): void,
+      }
+    }
+    tabs: {
+      onRemoved: {
+        addListener(): void,
+      }
+    }    
+  },
+}
+
 const globalAny: any = global;
 globalAny.browser = {
   storage: {
@@ -12,7 +32,7 @@ globalAny.browser = {
   },
   tabs: {
     onRemoved: {
-      addListener: (...args: unknown[]) => {},
+      addListener: () => {/* Dummy */},
     },
   },
-};
+}

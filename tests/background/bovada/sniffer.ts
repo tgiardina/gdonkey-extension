@@ -5,6 +5,7 @@ const events = [
     pid: "CO_OPTION_INFO",
     bblind: 50,
     sblind: 25,
+    gameType2: 1,
   },
   {
     pid: "CO_RESULT_INFO",

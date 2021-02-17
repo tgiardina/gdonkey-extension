@@ -11,7 +11,7 @@
     "format:background": "prettier --write src/background",
     "format:popup": "prettier --write src/popup",
     "lint": "web-ext lint && npm run lint:background && npm run lint:popup",
-    "lint:background": "eslint -c .eslintrc.background.js src/background",
+    "lint:background": "eslint -c .eslintrc.background.js src/background tests/background",
     "lint:popup": "eslint -c .eslintrc.popup.js src/popup",
     "watch": "concurrently -k \"webpack --watch\" \"web-ext run\""
   },

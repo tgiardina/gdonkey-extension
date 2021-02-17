@@ -1,6 +1,5 @@
 import { Seat } from "../entities";
 import Wire from "../models/wire";
-import TYPES from "../types";
 
 export default class SeatRepository {
   constructor(private wire: Wire) {}

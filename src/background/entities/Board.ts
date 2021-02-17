@@ -21,7 +21,7 @@ export default class Board {
     }
   }
 
-  public push(...cards: Card[]) {
+  public push(...cards: Card[]): void {
     this.cards.push(...cards);
   }
 

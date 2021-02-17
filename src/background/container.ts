@@ -9,13 +9,16 @@ import TYPES from "./types";
 import { Repositories } from "./repositories";
 import { Config } from "gdonkey-translators/src/interfaces";
 
-export default function getContainer(logger: (obj: unknown) => void): Container {
+export default function getContainer(
+  logger: (obj: unknown) => void
+): Container {
   const container = new Container();
   // Utils
   container.bind(TYPES.Logger).toConstantValue(logger);
+  /* istanbul ignore next */  
   container.bind(TYPES.HandleErr).toConstantValue((err: Error) => {
     logger(err);
-    logger(JSON.stringify(err)); 
+    logger(JSON.stringify(err));
   });
   // Museum Pipeline
   container

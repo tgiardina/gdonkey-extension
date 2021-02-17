@@ -1,6 +1,6 @@
 import { addInitMethod } from "@tgiardina/proxy-tools";
+import { GameType } from "gdonkey-translators/src/enums";
 import { ActionType, BlindSize, BlindType } from "../enums";
-import { InactiveSeatError } from "../errors";
 import { Card } from "../interfaces";
 import { Curator, Librarian } from "./";
 
@@ -29,6 +29,10 @@ export default class Controller {
     this.librarian.shelfGame(id);
   }
 
+  public identifyGameType(type: GameType): void {
+    this.librarian.documentGameType(type);
+  }
+
   public identifyBlind(type: BlindSize, amount: number): void {
     this.librarian.collectBlindSize(type, amount);
   }
@@ -54,7 +58,6 @@ export default class Controller {
   }
 
   public activateMissedBlind(seat: number): void {
-    if (!this.librarian.isSeatActive(seat)) throw new InactiveSeatError(seat);
     this.librarian.documentMissedBlind(seat);
   }
 
